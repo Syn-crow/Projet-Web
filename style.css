@@ -1,0 +1,130 @@
+*{
+  padding:0; /*on enleve ca car sinon on obtient */
+  margin:0;  /* un petit truc en troc qui oblige */
+  /* l'apparition d'une bare de scroll qui ne    */
+  /* sert absolument a rien!                     */
+  font-family: 'Special Elite', cursive;
+
+}
+
+html{
+  height:100%;
+}
+body{
+  height:100%;
+  padding: 0; /* permet d'avoir vraiment l'effet */
+  margin: 0;  /* FULLSCREEN que l'on recherche pour un jeu */
+}
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(29, 29, 29);
+  color:rgb(242, 242, 242);
+
+
+}
+#start{
+  height:100%;
+}
+#img{
+  background: url(logo_petit.png);
+  background-size:     contain;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;
+  width: 30%;
+  height:30%;
+  padding: 20px;
+}
+#img:hover{
+  background: url(logo_petit_rouge.png);
+  background-size:     contain;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;
+  width: 30%;
+  height:30%;
+  padding: 20px;
+}
+button{
+  border: none;
+  background-color: rgb(242, 242, 242);
+  color: rgb(17,17,17);
+}
+button:hover{
+  background-color: rgb(17,17,17);
+  color: rgb(242, 242, 242);
+}
+#start button{
+  height: 10%;
+  font-size: 130%;
+  width: 25%;
+}
+#start p{
+  font-size: 120%;
+  padding: 20px;
+}
+#start img{
+  height: 40%;
+  padding: 20px;
+}
+#jeu{
+  height: 100%;
+  width: 100%;
+}
+#barre{
+  height: 7%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+#barre img{
+  height: 70%;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+#barre a{
+  margin-left: auto;
+  margin-right: 1%;
+  height: 60%;
+  width: 11%;
+}
+#about{
+  height: 100%;
+  width: 100%;
+  font-size: 100%
+}
+#map{
+  height: 83%;
+  width: 100%;
+}
+#inventaire{
+  height: 10%;
+  width: 100%;
+}
+#overlay{
+  position: fixed; /* Sit on top of the page content */
+  /*display: none; /* Hidden by default */
+  width: 20%; /* Full width (cover the whole page) */
+  min-height: 20%; /* Full height (cover the whole page) */
+  top: 8%;
+  right: 3%;
+  background-color: rgba(0,0,0,0.7); /* Black background with opacity */
+  z-index: 314159;
+  pointer-events: none;
+  border-radius: 5%;
+}
+#overlay *{
+  margin: 2%;
+}
+.overlayButton{
+  position: fixed; /* Sit on top of the page content */
+  /*display: none; /* Hidden by default */
+  height: 8%; /* Full height (cover the whole page) */
+  top: 7%;
+  right: 1%;
+  z-index: 314160;
+  pointer-events: none;
+}
