@@ -22,8 +22,14 @@ body{
   flex-direction: column;
   background-color: rgb(29, 29, 29);
   color:rgb(242, 242, 242);
-
-
+}
+.container-row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: rgb(29, 29, 29);
+  color:rgb(242, 242, 242);
 }
 #start{
   height:100%;
@@ -71,6 +77,7 @@ button:hover{
 #jeu{
   height: 100%;
   width: 100%;
+  display: none;
 }
 #barre{
   height: 7%;
@@ -109,22 +116,26 @@ button:hover{
   /*display: none; /* Hidden by default */
   width: 20%; /* Full width (cover the whole page) */
   min-height: 20%; /* Full height (cover the whole page) */
-  top: 8%;
+  top: 8.5%;
   right: 3%;
   background-color: rgba(0,0,0,0.7); /* Black background with opacity */
   z-index: 314159;
   pointer-events: none;
   border-radius: 5%;
+  display: none;
+}
+#overlayClose{
+  display: none;
 }
 #overlay *{
-  margin: 2%;
+  margin: 4%;
+  margin-right: 5%;
 }
 .overlayButton{
   position: fixed; /* Sit on top of the page content */
   /*display: none; /* Hidden by default */
   height: 8%; /* Full height (cover the whole page) */
-  top: 7%;
+  top: 7.5%;
   right: 1%;
   z-index: 314160;
-  pointer-events: none;
 }
