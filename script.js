@@ -5,10 +5,8 @@ divDialogue = document.getElementById("dialogue");
 divOverlay = document.getElementById("overlay");
 btOverlayO = document.getElementById("overlayOpen");
 btOverlayC = document.getElementById("overlayClose");
-
+divInventaire = document.getElementById("inventaire");
 message = document.getElementById("message");
-
-
 
 //initialisation
 console.log(divJeu.style.display);
@@ -54,8 +52,29 @@ function hideShow(){
 function setMessage(text){
   message.innerHTML = text;
 }
+selection = null;
+listObj = [];
+function resetBorderInventory(){
+  allInInventory = document.querySelector(".objet");
+  for(var i=0; i<allInInventory.length;i++){
+    allInInventory[i].style= "";
+  }
+}
+function addToInventory(object){
+  nomStr = '"'+object.nom+'"'
+  selectStr = '"'+selection+'"'
+  vide = '""'
+  couleur ='"medium solid red"'
+  divInventaire.innerHTML+="<img src='"+object.image+"' onclick='if(selection!=null){document.getElementById(selection).style.border="+vide+";};selection="+nomStr+"; document.getElementById("+nomStr+").style.border="+couleur+"' id='"+object.nom+"' class='objet' title='"+object.indice+"'>";
+}
+addToInventory({image:"images\\Key_Gold.PNG",nom:"objet test", indice:"ceci est un test"})
+addToInventory({image:"images\\scroll_t.PNG",nom:"objet test2", indice:"ceci est un test"})
+addToInventory({image:"images\\scroll_t.PNG",nom:"objet test3", indice:"ceci est un test"})
+
 
 setMessage("bienvenue, ceci est un message écrit en utilisant la fonction setMessage!")
+
+
 
 //ajout des events
 btStart = document.getElementById("btStart");

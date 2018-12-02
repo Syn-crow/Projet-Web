@@ -139,3 +139,7 @@ button:hover{
   right: 1%;
   z-index: 314160;
 }
+#inventaire img{
+  height: 98%;
+  margin-left: 1%;
+}
