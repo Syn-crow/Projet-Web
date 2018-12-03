@@ -9,6 +9,7 @@
 
 html{
   height:100%;
+  overflow-y: hidden;
 }
 body{
   height:100%;
@@ -138,4 +139,18 @@ button:hover{
   top: 7.5%;
   right: 1%;
   z-index: 314160;
+}
+
+.unselected{
+  height: 100%;
+  margin-left: 1%;
+  padding: 0%;
+  border-width: 0%;
+}
+.selected{
+    margin-left: 1%;
+    padding: 0%;
+    border: grey solid;
+    border-width: 1%;
+    height: 90%;
 }
