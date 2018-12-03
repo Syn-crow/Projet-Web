@@ -26,11 +26,8 @@ body{
 }
 .container-row{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  background-color: rgb(29, 29, 29);
-  color:rgb(242, 242, 242);
+  flex-direction:row;
+
 }
 #start{
   height:100%;
@@ -153,4 +150,24 @@ button:hover{
     border: grey solid;
     border-width: 1%;
     height: 90%;
+}
+#dialogue{
+  height: 100%;
+  width: 100%;
+}
+#affichageObjet{
+  height:100%;
+  width: 50%;
+}
+#dialText{
+  background-color: rgb(10, 10, 10);
+  width: 100%;
+}
+#question{
+  flex-grow: 1;
+  height:75%;
+}
+#reponse{
+  height:25%;
+  flex-grow: 1;
 }
