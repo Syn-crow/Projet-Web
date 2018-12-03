@@ -27,7 +27,6 @@ body{
 .container-row{
   display: flex;
   flex-direction:row;
-
 }
 #start{
   height:100%;
@@ -156,18 +155,23 @@ button:hover{
   width: 100%;
 }
 #affichageObjet{
+  background-color: rgb(29, 29, 29);
   height:100%;
-  width: 50%;
+  width: 40%;
+}
+#affichageObjet img{
+  max-width: 95%;
+  max-height: 95%;
+  align-self: center;
 }
 #dialText{
   background-color: rgb(10, 10, 10);
-  width: 100%;
+  color: white;
+  width: 60%;
+  height: 100%;
+  overflow: auto;
+  position: relative;
 }
-#question{
-  flex-grow: 1;
-  height:75%;
-}
-#reponse{
-  height:25%;
-  flex-grow: 1;
+#text{
+  height: 9000px;
 }

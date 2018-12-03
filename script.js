@@ -8,6 +8,9 @@ btOverlayC = document.getElementById("overlayClose");
 divInventaire = document.getElementById("inventaire");
 message = document.getElementById("message");
 
+dialogueTexte = document.getElementById("dialText");
+dialogueImg = document.getElementById("affichageObjet");
+dTexte = document.getElementById("text")
 //initialisation
 console.log(divJeu.style.display);
 divJeu.style.display = "none";
@@ -27,15 +30,30 @@ function start(){
   //la car on utilise pas la carte avant
 }
 //passe de map à dialogue et vice-versa
+
+//________________________________DIALOGUE__________________________________
+
 function mapDialog(){
   if(divJeu.style.display == "none"){
     divJeu.style.display = "block";
     divDialogue.style.display = "none";
   }else{
     divJeu.style.display = "none";
-    divDialogue.style.display = "block";
+    divDialogue.style.display = "flex";
+    ps.update();
   }
 }
+
+function setDialogue(texte,img){
+  dTexte.innerHTML = "<p>"+texte+"</p>";
+  dialogueImg.innerHTML = "<img src="+img+">";
+
+}
+const ps = new PerfectScrollbar('#dialText', {
+  wheelSpeed: 2,
+  wheelPropagation: true,
+  minScrollbarLength: 20
+});
 //-------------------------------------AFFICHAGE DU MESSAGE(overlay)------------------------//
 function hideShow(){
   if(divOverlay.style.display == ""){
@@ -52,6 +70,7 @@ function hideShow(){
 function setMessage(text){
   message.innerHTML = text;
 }
+//___________________________INVENTORY_________________________________
 selection = null;
 listObj = [];
 function resetBorderInventory(){
