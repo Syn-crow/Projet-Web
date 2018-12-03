@@ -84,7 +84,7 @@ btOverlayC.addEventListener("click",hideShow);
 btOverlayO.addEventListener("click",hideShow);
 
 
-// ----------------------------------------------- Partie requête php -----------------------------------------------//
+// ----------------------------------------------- Partie requête php -----------------------------------------------
 
 //On crée une liste qui va être parcourue pour récupérer chaque objet
 var listeObjets = ["code1","pendentif","panneau","code2","porte1","cle","porte2","cadenas1","cadenas2"]
@@ -98,15 +98,16 @@ ajax.open('GET', 'objet.php');
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 ajax.send("request="+listObjets[indObjetActuel]);
 
-ajax.addEventListener('load', function () {
+ajax.addEventListener("load", function () {
     listeAttributs = JSON.parse(ajax.response);
-    //Opérations sur les différents éléments de l'objet "code1"
+    //--------Opérations sur les différents éléments de l'objet "code1"------------
     //Afficher le nouvel objet avec image et position
 
     //Afficher le nouveau message
 
     //Afficher l'indice en texte
-    setMessage(listeAttributs[7])
-
+    setMessage(listeAttributs[7]);
+    //Changer d'objet actuel
+    indObjetActuel += 1;
     }
 );
