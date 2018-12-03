@@ -96,4 +96,4 @@ if ($_POST['request'] == "cadenas2") {
         echo json_encode($tab);
     }
 }
->
+?>
