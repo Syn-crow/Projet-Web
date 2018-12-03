@@ -118,7 +118,7 @@ button:hover{
   right: 3%;
   background-color: rgba(0,0,0,0.7); /* Black background with opacity */
   z-index: 314159;
-  pointer-events: none;
+  pointer-events:none;
   border-radius: 5%;
   display: none;
 }

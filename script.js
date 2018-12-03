@@ -36,15 +36,15 @@ function mapDialog(){
     divDialogue.style.display = "block";
   }
 }
-
+//-------------------------------------AFFICHAGE DU MESSAGE(overlay)------------------------//
 function hideShow(){
-  if(divOverlay.style.display == "none"){
+  if(divOverlay.style.display == ""){
     divOverlay.style.display = "block";
     btOverlayC.style.display = "block";
     btOverlayO.style.display = "none";
   }
   else{
-    divOverlay.style.display = "none"
+    divOverlay.style.display = ""
     btOverlayC.style.display = "none";
     btOverlayO.style.display = "block";
   }
@@ -90,13 +90,13 @@ btOverlayO.addEventListener("click",hideShow);
 var listeObjets = ["code1","pendentif","panneau","code2","porte1","cle","porte2","cadenas1","cadenas2"]
 //On va chercher chaque objet en fonction de sa position dans la liste listeObjets
 var indObjetActuel = 0;
-//Liste des attributs de l'objet : id,nom,image,position,type_condition,parametre,message,indice
+//Liste des attributs de l'objet id,nom,image,position,type_condition,parametre,message,indice
 var listeAttributs;
 
 var ajax = new XMLHttpRequest();
 ajax.open('GET', 'objet.php');
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-ajax.send("request="+listObjets[indObjetActuel]);
+ajax.send("request="+indObjetActuel);
 
 ajax.addEventListener("load", function () {
     listeAttributs = JSON.parse(ajax.response);
