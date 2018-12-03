@@ -61,11 +61,11 @@ function resetBorderInventory(){
   }
 }
 function addToInventory(object){
-  nomStr = '"'+object.nom+'"'
-  selectStr = '"'+selection+'"'
-  vide = '""'
-  couleur ='"medium solid red"'
-  divInventaire.innerHTML+="<img src='"+object.image+"' onclick='if(selection!=null){document.getElementById(selection).style.border="+vide+";};selection="+nomStr+"; document.getElementById("+nomStr+").style.border="+couleur+"' id='"+object.nom+"' class='objet' title='"+object.indice+"'>";
+  nomStr = '"'+object.nom+'"';
+  selectStr = '"'+selection+'"';
+  vide = '""';
+  classe = '"class"';
+  divInventaire.innerHTML+="<img src='"+object.image+"' onclick='if(selection!=null){document.getElementById(selection).setAttribute("+classe+","+'"unselected"'+");};selection="+nomStr+"; document.getElementById("+nomStr+").setAttribute("+classe+","+'"selected"'+")' id='"+object.nom+"' class='unselected' title='"+object.indice+"'>";
 }
 addToInventory({image:"images\\Key_Gold.PNG",nom:"objet test", indice:"ceci est un test"})
 addToInventory({image:"images\\scroll_t.PNG",nom:"objet test2", indice:"ceci est un test"})
