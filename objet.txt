@@ -5,6 +5,6 @@ objet
 -nom: string
 -img: PATH
 -position: format Leaflet [latitude: int, longitude: int]
--condition: turple(type cond: int, parametre: string)
+-condition: tuple(type cond: int, parametre: string)
 -message: string
 -indice: string
