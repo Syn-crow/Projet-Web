@@ -90,17 +90,23 @@ btOverlayO.addEventListener("click",hideShow);
 var listeObjets = ["code1","pendentif","panneau","code2","porte1","cle","porte2","cadenas1","cadenas2"]
 //On va chercher chaque objet en fonction de sa position dans la liste listeObjets
 var indObjetActuel = 0;
-//Liste des attributs de l'objet id,nom,image,position,type_condition,parametre,message,indice
+//Liste des attributs de l'objet : id,nom,image,position,type_condition,parametre,message,indice
 var listeAttributs;
 
 var ajax = new XMLHttpRequest();
 ajax.open('GET', 'objet.php');
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-ajax.send("request="+indObjetActuel);
+ajax.send("request="+listObjets[indObjetActuel]);
 
 ajax.addEventListener('load', function () {
-    var result = JSON.parse(ajax.response);
-    //for (i=1;i<result.length;i++) {
-        //pays.innerHTML +="<option value="+result[i-1]['id']+">"+result[i-1]["pays"]+"</option>";
+    listeAttributs = JSON.parse(ajax.response);
+    //Opérations sur les différents éléments de l'objet "code1"
+    //Afficher le nouvel objet avec image et position
+
+    //Afficher le nouveau message
+
+    //Afficher l'indice en texte
+    setMessage(listeAttributs[7])
+
     }
-});
+);
