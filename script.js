@@ -115,14 +115,13 @@ var listeAttributs;
 var ajax = new XMLHttpRequest();
 ajax.open('GET', 'objet.php');
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-ajax.send("request="+indObjetActuel);
+ajax.send('request="'+listeObjets[indObjetActuel]+'"');
 
 ajax.addEventListener("load", function () {
     listeAttributs = JSON.parse(ajax.response);
     //--------Opérations sur les différents éléments de l'objet "code1"------------
     //Afficher le nouvel objet avec image et position
-    var imageUrl = listeAttributs[2],
-    imageBounds = [center, [listeAttributs[3],listeAttributs[4]]];
+    var imageUrl = listeAttributs[2], imageBounds = [center, [listeAttributs[3],listeAttributs[4]]];
     L.imageOverlay(imageUrl, imageBounds).addTo(map);
     //Afficher le nouveau message
     mapDialog();
