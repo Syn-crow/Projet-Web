@@ -154,6 +154,13 @@ button:hover{
   height: 100%;
   width: 100%;
 }
+#button_continue{
+  position: fixed;
+  height: 10%;
+  width: 7%;
+  right: 2%;
+  border-bottom: 2%;
+}
 #affichageObjet{
   background-color: rgb(29, 29, 29);
   height:100%;
