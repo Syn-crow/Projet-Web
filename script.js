@@ -113,12 +113,13 @@ var indObjetActuel = 0;
 var listeAttributs;
 
 var ajax = new XMLHttpRequest();
-ajax.open('GET', 'objet.php');
+ajax.open('GET', 'objet.php',true);
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-ajax.send('request="'+listeObjets[indObjetActuel]+'"');
+ajax.send("request='"+listeObjets[indObjetActuel]+"'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
 
 ajax.addEventListener("load", function () {
-    listeAttributs = JSON.parse(ajax.response);
+    //listeAttributs = JSON.parse(ajax.response);
+    console.log(ajax.response);
     //--------Opérations sur les différents éléments de l'objet "code1"------------
     //Afficher le nouvel objet avec image et position
     var imageUrl = listeAttributs[2], imageBounds = [center, [listeAttributs[3],listeAttributs[4]]];
