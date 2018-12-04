@@ -188,18 +188,17 @@ ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 ajax.send("request='"+listeObjets[indObjetActuel]+"'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
 
 ajax.addEventListener("load", function () {
-    listeAttributs = JSON.parse(ajax.response);
+    //listeAttributs = JSON.parse(ajax.response);
     //--------Opérations sur les différents éléments de l'objet "code1"------------
     //Afficher le nouvel objet avec image et position
-    afficherImg(indObjetActuel);
+    afficherImg();
     //Afficher le nouveau message
-    afficherMsg(listeAttributs);
+    //afficherMsg(listeAttributs);
     //Cliquer pour quitter la page de dialogue...
 
     //Afficher l'indice en texte
-    setMessage(listeAttributs[8]);
+    //setMessage(listeAttributs[8]);
     //Changer d'objet actuel
-    indObjetActuel += 1;
     }
 );
 
