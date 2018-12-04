@@ -19,12 +19,10 @@ divJeu.style.display = "none";
 // fonction permettant de cacher la page d'accueil
 // pour passer au jeu
 
-var map = L.map('map').setView([48.8605,  2.3921], 16);
-
 function start(){
   divStart.style.display = "none";
   divJeu.style.display = "block";
-  //var map = L.map('map').setView([48.8605,  2.3921], 16);
+  var map = L.map('map').setView([48.8605,  2.3921], 16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map); // on initialise la map seulement
@@ -45,12 +43,12 @@ function afficherImg() {
     listeAttributsObjet = JSON.parse(ajax.response); //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
 
     var img = L.icon({
-      iconUrl: listeAttributsObjet[image],
-      iconSize: [listeAttributsObjet[taille],listeAttributsObjet[taille]],
-      iconAnchor: [listeAttributsObjet[ancreX],listeAttributsObjet[ancreY]], //de combien est décalé l'image par rapport à son coin en haut à gauche
+      iconUrl: listeAttributsObjet["image"],
+      iconSize: [listeAttributsObjet["taille"],listeAttributsObjet["taille"]],
+      iconAnchor: [listeAttributsObjet["ancreX"],listeAttributsObjet["ancreY"]], //de combien est décalé l'image par rapport à son coin en haut à gauche
     });
     //marker = L.marker([listeAttributsObjet[3],listeAttributsObjet[4]],{icon: img}).addTo(markers).on('click', onClick);;
-    marker = L.marker([listeAttributsObjet[latitude],listeAttributsObjet[longitude]],{icon: img}).addTo(markers);
+    marker = L.marker([listeAttributsObjet["latitude"],listeAttributsObjet["longitude"]],{icon: img}).addTo(markers);
     map.on('zoomend', function() {
         if (map.getZoom() <listeAttributsObjet[zoom]){
                 map.removeLayer(markers);
