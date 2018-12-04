@@ -183,15 +183,8 @@ var listeAttributs;
 //afficherImg();
 
 var ajax = new XMLHttpRequest();
-<<<<<<< HEAD
-<<<<<<< HEAD
 ajax.open('POST', 'score.php',true);
-=======
 ajax.open('POST', 'objet.php',true);
->>>>>>> 46e5f86ab2c2296ccf173a1106b26e78c6a13094
-=======
-ajax.open('POST', 'objet.php',true);
->>>>>>> 69daf012d44afa50dfa83ff3496a6270c9d07d0c
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 //ajax.send("request='score'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
 
