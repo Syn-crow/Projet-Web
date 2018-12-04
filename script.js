@@ -44,11 +44,11 @@ function mapDialog(){
   }
 }
 
-function setDialogue(texte,img){
+function setDialogue(texte,img=""){
   dTexte.innerHTML = "<p>"+texte+"</p>";
   dialogueImg.innerHTML = "<img src="+img+">";
-
 }
+
 const ps = new PerfectScrollbar('#dialText', {
   wheelSpeed: 2,
   wheelPropagation: true,
@@ -109,7 +109,7 @@ btOverlayO.addEventListener("click",hideShow);
 var listeObjets = ["code1","pendentif","panneau","code2","porte1","cle","porte2","cadenas1","cadenas2"]
 //On va chercher chaque objet en fonction de sa position dans la liste listeObjets
 var indObjetActuel = 0;
-//Liste des attributs de l'objet id,nom,image,position,type_condition,parametre,message,indice
+//Liste des attributs de l'objet id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
 var listeAttributs;
 
 var ajax = new XMLHttpRequest();
@@ -121,11 +121,14 @@ ajax.addEventListener("load", function () {
     listeAttributs = JSON.parse(ajax.response);
     //--------Opérations sur les différents éléments de l'objet "code1"------------
     //Afficher le nouvel objet avec image et position
-
+    var imageUrl = listeAttributs[2],
+    imageBounds = [center, [listeAttributs[3],listeAttributs[4]]];
+    L.imageOverlay(imageUrl, imageBounds).addTo(map);
     //Afficher le nouveau message
-
+    mapDialog();
+    setDialogue(listeAttributs[7],listeAttributs[9])
     //Afficher l'indice en texte
-    setMessage(listeAttributs[7]);
+    setMessage(listeAttributs[8]);
     //Changer d'objet actuel
     indObjetActuel += 1;
     }

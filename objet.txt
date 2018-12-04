@@ -4,7 +4,9 @@ objet
 -id: serial
 -nom: string
 -img: PATH
--position: format Leaflet [latitude: int, longitude: int]
--condition: tuple(type cond: int, parametre: string)
+-latitude: float
+-longitude: float
+-type_condition: int (1: ramassage simple ; 2: code à nombres ; 3: verrou)
+-parametre: string ("":ramassage simple ; "avec_code":qui s'ouvre avec un code ; "cle")
 -message: string
 -indice: string
