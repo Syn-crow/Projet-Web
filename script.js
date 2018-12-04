@@ -16,20 +16,88 @@ console.log(divJeu.style.display);
 divJeu.style.display = "none";
 
 
-
 // fonction permettant de cacher la page d'accueil
 // pour passer au jeu
+
+var map = L.map('map').setView([48.8605,  2.3921], 16);
 
 function start(){
   divStart.style.display = "none";
   divJeu.style.display = "block";
-  var map = L.map('map').setView([48.8605,  2.3921], 16);
+  //var map = L.map('map').setView([48.8605,  2.3921], 16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map); // on initialise la map seulement
-  //la car on utilise pas la carte avant
+  //la car on n'utilise pas la carte avant
 }
 //passe de map à dialogue et vice-versa
+
+
+
+//______________Fonctions affichage des images et interactions______________
+
+var markers = new L.LayerGroup();
+
+//Affiche les images de tous les objets
+function afficherImg() {
+  for (var i=0;i<listeObjets.length;i++) {
+    ajax.send("request='"+listeObjets[i]+"'");
+    listeAttributsObjet = JSON.parse(ajax.response); //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
+
+    var img = L.icon({
+      iconUrl: listeAttributsObjet[image],
+      iconSize: [listeAttributsObjet[taille],listeAttributsObjet[taille]],
+      iconAnchor: [listeAttributsObjet[ancreX],listeAttributsObjet[ancreY]], //de combien est décalé l'image par rapport à son coin en haut à gauche
+    });
+    //marker = L.marker([listeAttributsObjet[3],listeAttributsObjet[4]],{icon: img}).addTo(markers).on('click', onClick);;
+    marker = L.marker([listeAttributsObjet[latitude],listeAttributsObjet[longitude]],{icon: img}).addTo(markers);
+    map.on('zoomend', function() {
+        if (map.getZoom() <listeAttributsObjet[zoom]){
+                map.removeLayer(markers);
+        }
+        else {
+                map.addLayer(markers);
+            }
+    });
+  }
+}
+
+//EXEMPLE
+/*function afficherImg() { //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
+  var markers = new L.LayerGroup();
+  var img = L.icon({
+    //iconUrl: listeAttributsObjet[2], //EXEMPLE iconUrl: 'images/scroll_t.png',
+    iconUrl: 'images/scroll_t.png',
+    iconSize: [120,120], //taille de l'image
+    iconAnchor: [10,10], //de combien est décalé l'image par rapport à son coin en haut à gauche
+    popupAnchor: [-3,-3]
+  });
+  //marker = L.marker([listeAttributsObjet[3],listeAttributsObjet[4]],{icon: img}).addTo(markers).on('click', onClick);;
+  marker = L.marker([48.843724, 2.3594],{icon: img}).addTo(markers);
+  map.on('zoomend', function() {
+      if (map.getZoom() <17){
+              map.removeLayer(markers);
+      }
+      else {
+              map.addLayer(markers);
+          }
+  });
+}
+afficherImg();*/
+
+function onClick() {
+  addToInventory(listeObjets[indObjetActuel])
+  indObjetActuel += 1;
+  afficherMsg(listeAttributsObjet);
+  afficherImg(indObjetActuel);
+}
+
+function afficherMsg(listeAttributsObjet) {
+  mapDialog();
+  setDialogue(listeAttributsObjet[7],listeAttributsObjet[9]);
+  dialogueTexte.addEventListener('click',)
+}
+
 
 //________________________________DIALOGUE__________________________________
 
@@ -112,24 +180,32 @@ var indObjetActuel = 0;
 //Liste des attributs de l'objet id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
 var listeAttributs;
 
+//afficherImg();
+
 var ajax = new XMLHttpRequest();
+<<<<<<< HEAD
 ajax.open('POST', 'score.php',true);
+=======
+ajax.open('POST', 'objet.php',true);
+>>>>>>> 46e5f86ab2c2296ccf173a1106b26e78c6a13094
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 ajax.send("request='score'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
 
 ajax.addEventListener("load", function () {
     //listeAttributs = JSON.parse(ajax.response);
-    console.log(ajax.response);
     //--------Opérations sur les différents éléments de l'objet "code1"------------
     //Afficher le nouvel objet avec image et position
-    var imageUrl = listeAttributs[2], imageBounds = [center, [listeAttributs[3],listeAttributs[4]]];
-    L.imageOverlay(imageUrl, imageBounds).addTo(map);
+    afficherImg();
     //Afficher le nouveau message
-    mapDialog();
-    setDialogue(listeAttributs[7],listeAttributs[9])
+    //afficherMsg(listeAttributs);
+    //Cliquer pour quitter la page de dialogue...
+
     //Afficher l'indice en texte
-    setMessage(listeAttributs[8]);
+    //setMessage(listeAttributs[8]);
     //Changer d'objet actuel
-    indObjetActuel += 1;
     }
 );
+
+ajax.addEventListener("click", function() {
+
+})
