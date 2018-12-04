@@ -113,9 +113,9 @@ var indObjetActuel = 0;
 var listeAttributs;
 
 var ajax = new XMLHttpRequest();
-ajax.open('GET', 'objet.php',true);
+ajax.open('POST', 'score.php',true);
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-ajax.send("request='"+listeObjets[indObjetActuel]+"'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
+ajax.send("request='score'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
 
 ajax.addEventListener("load", function () {
     //listeAttributs = JSON.parse(ajax.response);
