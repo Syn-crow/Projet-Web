@@ -36,32 +36,34 @@ function start(){
 
 //______________Fonctions affichage des images et interactions______________
 
-/*
-function afficherImg(indObjetActuel) { //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
-  ajax.send("request='"+listeObjets[indObjetActuel]+"'");
-  listeAttributsObjet = JSON.parse(ajax.response);
-  var markers = new L.LayerGroup();
-  var img = L.icon({
-    //iconUrl: listeAttributsObjet[2], //EXEMPLE iconUrl: 'images/scroll_t.png',
-    iconUrl: 'images/scroll_t.png',
-    iconSize: [80,80], //taille de l'image
-    iconAnchor: [10,10], //de combien est décalé l'image par rapport à son coin en haut à gauche
-    popupAnchor: [-3,-3]
-  });
-  //marker = L.marker([listeAttributsObjet[3],listeAttributsObjet[4]],{icon: img}).addTo(markers).on('click', onClick);;
-  marker = L.marker([48.843724, 2.3594],{icon: img}).addTo(markers);
-  map.on('zoomend', function() {
-      if (map.getZoom() <17){
-              map.removeLayer(markers);
-      }
-      else {
-              map.addLayer(markers);
-          }
-  });
-}*/
+var markers = new L.LayerGroup();
 
-//TOUT CA EN BAS JUSQUA AFFICHERIMG(); CEST UN EXEMPLE
-function afficherImg() { //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
+//Affiche les images de tous les objets
+function afficherImg() {
+  for (var i=0;i<listeObjets.length;i++) {
+    ajax.send("request='"+listeObjets[i]+"'");
+    listeAttributsObjet = JSON.parse(ajax.response); //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
+
+    var img = L.icon({
+      iconUrl: listeAttributsObjet[image],
+      iconSize: [listeAttributsObjet[taille],listeAttributsObjet[taille]],
+      iconAnchor: [listeAttributsObjet[ancreX],listeAttributsObjet[ancreY]], //de combien est décalé l'image par rapport à son coin en haut à gauche
+    });
+    //marker = L.marker([listeAttributsObjet[3],listeAttributsObjet[4]],{icon: img}).addTo(markers).on('click', onClick);;
+    marker = L.marker([listeAttributsObjet[latitude],listeAttributsObjet[longitude]],{icon: img}).addTo(markers);
+    map.on('zoomend', function() {
+        if (map.getZoom() <listeAttributsObjet[zoom]){
+                map.removeLayer(markers);
+        }
+        else {
+                map.addLayer(markers);
+            }
+    });
+  }
+}
+
+//EXEMPLE
+/*function afficherImg() { //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
   var markers = new L.LayerGroup();
   var img = L.icon({
     //iconUrl: listeAttributsObjet[2], //EXEMPLE iconUrl: 'images/scroll_t.png',
@@ -81,7 +83,7 @@ function afficherImg() { //id,nom,image,latitude,longitude,type_condition,parame
           }
   });
 }
-afficherImg();
+afficherImg();*/
 
 function onClick() {
   addToInventory(listeObjets[indObjetActuel])
