@@ -185,7 +185,7 @@ var listeAttributs;
 var ajax = new XMLHttpRequest();
 ajax.open('POST', 'objet.php',true);
 ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-ajax.send("request='"+listeObjets[indObjetActuel]+"'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
+//ajax.send("request='"+listeObjets[indObjetActuel]+"'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
 
 ajax.addEventListener("load", function () {
     //listeAttributs = JSON.parse(ajax.response);
