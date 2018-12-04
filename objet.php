@@ -1,5 +1,5 @@
 <?php
-$link = mysqli_connect('localhost','mysqli','','escapegame');
+$link = mysqli_connect('localhost','mysqli','','escapegame'); //port 3306;usename:mysql; password: mysql
 
 //$link = pg_connect('host=localhost port=5432 dbname=escapegame user=postgres password=postgres');
 
@@ -10,7 +10,7 @@ if (!$link) {
 
 
 if ($_POST['request'] == "code1") {
-    $requete = "SELECT * FROM objets WHERE id=0";
+    $requete = "SELECT id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj FROM objets WHERE id=0";
     if ($result = mysqli_query($link,$requete)) {
         while ($ligne = mysqli_fetch_assoc($result)) {
             $tab[] = $ligne;
