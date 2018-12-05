@@ -19,14 +19,17 @@ divJeu.style.display = "none";
 // fonction permettant de cacher la page d'accueil
 // pour passer au jeu
 
+var map ;
 function start(){
   divStart.style.display = "none";
   divJeu.style.display = "block";
-  var map = L.map('map').setView([48.8605,  2.3921], 16);
+  map= L.map('map').setView([48.8605,  2.3921], 16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map); // on initialise la map seulement
   //la car on n'utilise pas la carte avant
+  getObject(1);
+  setTimeout(function(){addMarker(listeObjets[0],map)},2000);
 }
 //passe de map à dialogue et vice-versa
 
@@ -34,21 +37,29 @@ function start(){
 
 //______________Fonctions affichage des images et interactions______________
 
-var markers = new L.LayerGroup();
-
+listeObjets = [];
 //Affiche les images de tous les objets
-function afficherImg() {
-  for (var i=0;i<listeObjets.length;i++) {
-    ajax.send("request='"+listeObjets[i]+"'");
-    listeAttributsObjet = JSON.parse(ajax.response); //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
+function getObject(id) {
+  var deja = false;
+  for(var i=0;i<listeObjets.length;i++){
+    console.log(listeObjets[i]['id']);
+    console.log(listeObjets[i]);
+    if(listeObjets[i]['id'] == id){
+      deja = true;
+    }
+  }
+  if(!deja){
+  var ajax = new XMLHttpRequest();
+  ajax.open('POST', 'objet.php');
+  ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  ajax.send("id="+id);
 
-    var img = L.icon({
-      iconUrl: listeAttributsObjet["image"],
-      iconSize: [listeAttributsObjet["taille"],listeAttributsObjet["taille"]],
-      iconAnchor: [listeAttributsObjet["ancreX"],listeAttributsObjet["ancreY"]], //de combien est décalé l'image par rapport à son coin en haut à gauche
-    });
-    //marker = L.marker([listeAttributsObjet[3],listeAttributsObjet[4]],{icon: img}).addTo(markers).on('click', onClick);;
-    marker = L.marker([listeAttributsObjet["latitude"],listeAttributsObjet["longitude"]],{icon: img}).addTo(markers);
+  ajax.addEventListener('load', function () {
+      var result = JSON.parse(ajax.response);
+      listeObjets.push(result[0]);
+  });}
+}
+function eventZoom(){
     map.on('zoomend', function() {
         if (map.getZoom() <listeAttributsObjet[zoom]){
                 map.removeLayer(markers);
@@ -57,43 +68,53 @@ function afficherImg() {
                 map.addLayer(markers);
             }
     });
-  }
 }
 
-//EXEMPLE
-/*function afficherImg() { //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
-  var markers = new L.LayerGroup();
+
+listeMarker = {};
+function addMarker(objet,map) { //id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
   var img = L.icon({
     //iconUrl: listeAttributsObjet[2], //EXEMPLE iconUrl: 'images/scroll_t.png',
-    iconUrl: 'images/scroll_t.png',
-    iconSize: [120,120], //taille de l'image
-    iconAnchor: [10,10], //de combien est décalé l'image par rapport à son coin en haut à gauche
+    iconUrl: objet['img'],
+    iconSize: [objet['taille'],objet['taille']], //taille de l'image
+    iconAnchor: [objet['ancreX'],objet['ancreY']], //de combien est décalé l'image par rapport à son coin en haut à gauche
     popupAnchor: [-3,-3]
   });
   //marker = L.marker([listeAttributsObjet[3],listeAttributsObjet[4]],{icon: img}).addTo(markers).on('click', onClick);;
-  marker = L.marker([48.843724, 2.3594],{icon: img}).addTo(markers);
-  map.on('zoomend', function() {
-      if (map.getZoom() <17){
-              map.removeLayer(markers);
-      }
-      else {
-              map.addLayer(markers);
-          }
-  });
-}
-afficherImg();*/
-
-function onClick() {
-  addToInventory(listeObjets[indObjetActuel])
-  indObjetActuel += 1;
-  afficherMsg(listeAttributsObjet);
-  afficherImg(indObjetActuel);
+  var marker = L.marker([objet['latitude'], objet['longitude']],{icon: img});
+  onClick = null;
+  if(objet["typeCond"]==1){
+    onClick = ramassageSimple;
+  }
+  if(objet["typeCond"]==2){
+    onClick = codeNombre;
+  }
+  marker.addTo(map).once('click',function() {onClick(objet)});
+  listeMarker[String(objet['id'])] = marker;
 }
 
-function afficherMsg(listeAttributsObjet) {
-  mapDialog();
-  setDialogue(listeAttributsObjet[7],listeAttributsObjet[9]);
-  dialogueTexte.addEventListener('click',)
+
+function ramassageSimple(objet) {
+  addToInventory(objet);
+  afficherMsg(objet);
+  listeMarker[objet["id"]].setOpacity(0);
+  getObject(objet["id"]+1);
+  setTimeout(function(){addMarker(listeObjets[objet["id"]],map)},2000);
+}
+function codeNombre(objet) {
+  setCode(object["img"]);
+  document.getElementById("submit").addEventListener('click',function(){
+    if(document.getElementById("code").value==String(code)){
+      addToInventory(objet);
+      setDialogue(objet["message"],objet["img"]);
+      dialogueTexte.addEventListener('click',mapDialog);
+      setMessage(objet["indice"]);
+      listeMarker[objet["id"]].setOpacity(0);
+      getObject(objet["id"]+1);
+      setTimeout(function(){addMarker(listeObjets[objet["id"]],map)},2000);
+    }
+  })
+
 }
 
 
@@ -113,6 +134,17 @@ function mapDialog(){
 function setDialogue(texte,img=""){
   dTexte.innerHTML = "<p>"+texte+"</p>";
   dialogueImg.innerHTML = "<img src="+img+">";
+}
+function setCode(img=""){
+  dTexte.innerHTML = " <input type='text' id='code'><input type='submit' id='submit'>";
+  dialogueImg.innerHTML = "<img src="+img+">";
+}
+
+function afficherMsg(objet) {
+  mapDialog();
+  setDialogue(objet["message"],objet["img"]);
+  dialogueTexte.addEventListener('click',mapDialog);
+  setMessage(objet["indice"]);
 }
 
 const ps = new PerfectScrollbar('#dialText', {
@@ -136,9 +168,10 @@ function hideShow(){
 function setMessage(text){
   message.innerHTML = text;
 }
+setMessage("devans, un papier!")
+
 //___________________________INVENTORY_________________________________
 selection = null;
-listObj = [];
 function resetBorderInventory(){
   allInInventory = document.querySelector(".objet");
   for(var i=0; i<allInInventory.length;i++){
@@ -146,18 +179,12 @@ function resetBorderInventory(){
   }
 }
 function addToInventory(object){
-  nomStr = '"'+object.nom+'"';
+  nomStr = '"'+object["nom"]+'"';
   selectStr = '"'+selection+'"';
   vide = '""';
   classe = '"class"';
-  divInventaire.innerHTML+="<img src='"+object.image+"' onclick='if(selection!=null){document.getElementById(selection).setAttribute("+classe+","+'"unselected"'+");};selection="+nomStr+"; document.getElementById("+nomStr+").setAttribute("+classe+","+'"selected"'+")' id='"+object.nom+"' class='unselected' title='"+object.indice+"'>";
+  divInventaire.innerHTML+="<img src='"+object["img"]+"' onclick='if(selection!=null){document.getElementById(selection).setAttribute("+classe+","+'"unselected"'+");};selection="+nomStr+"; document.getElementById("+nomStr+").setAttribute("+classe+","+'"selected"'+")' id='"+object["nom"]+"' class='unselected' title='"+object["indice"]+"'>";
 }
-addToInventory({image:"images\\Key_Gold.PNG",nom:"objet test", indice:"ceci est un test"})
-addToInventory({image:"images\\scroll_t.PNG",nom:"objet test2", indice:"ceci est un test"})
-addToInventory({image:"images\\scroll_t.PNG",nom:"objet test3", indice:"ceci est un test"})
-
-
-setMessage("bienvenue, ceci est un message écrit en utilisant la fonction setMessage!")
 
 
 
@@ -172,7 +199,6 @@ btOverlayO.addEventListener("click",hideShow);
 // ----------------------------------------------- Partie requête php -----------------------------------------------
 
 //On crée une liste qui va être parcourue pour récupérer chaque objet
-var listeObjets = ["code1","pendentif","panneau","code2","porte1","cle","porte2","cadenas1","cadenas2"]
 //On va chercher chaque objet en fonction de sa position dans la liste listeObjets
 var indObjetActuel = 0;
 //Liste des attributs de l'objet id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
