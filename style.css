@@ -155,10 +155,8 @@ button:hover{
   width: 100%;
 }
 #button_continue{
-  position: fixed;
-  height: 10%;
-  width: 7%;
-  right: 2%;
+  height: 100px;
+  border-left: : 70%;
   border-bottom: 2%;
 }
 #affichageObjet{

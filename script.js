@@ -10,7 +10,8 @@ message = document.getElementById("message");
 
 dialogueTexte = document.getElementById("dialText");
 dialogueImg = document.getElementById("affichageObjet");
-dTexte = document.getElementById("text")
+dTexte = document.getElementById("text");
+continuer = document.getElementById("button_continue");
 //initialisation
 console.log(divJeu.style.display);
 divJeu.style.display = "none";
@@ -87,6 +88,9 @@ function addMarker(objet,map) { //id,nom,image,latitude,longitude,type_condition
     onClick = ramassageSimple;
   }
   if(objet["typeCond"]==2){
+    onClick = cle;
+  }
+  if(objet["typeCond"]==3){
     onClick = codeNombre;
   }
   marker.addTo(map).once('click',function() {onClick(objet)});
@@ -101,17 +105,30 @@ function ramassageSimple(objet) {
   getObject(objet["id"]+1);
   setTimeout(function(){addMarker(listeObjets[objet["id"]],map)},2000);
 }
+function cle(objet) {
+  if(selection = 'clé'){
+    addToInventory(objet);
+    afficherMsg(objet);
+    listeMarker[objet["id"]].setOpacity(0);
+    getObject(objet["id"]+1);
+    setTimeout(function(){addMarker(listeObjets[objet["id"]],map)},2000);
+  }
+}
 function codeNombre(objet) {
-  setCode(object["img"]);
+  continuer.style.display = "none";
+  setCode(objet["img"]);
+  mapDialog();
   document.getElementById("submit").addEventListener('click',function(){
-    if(document.getElementById("code").value==String(code)){
+    if(document.getElementById("code").value==objet["parametre"]){
       addToInventory(objet);
       setDialogue(objet["message"],objet["img"]);
-      dialogueTexte.addEventListener('click',mapDialog);
+      continuer.style.display = "none";
       setMessage(objet["indice"]);
       listeMarker[objet["id"]].setOpacity(0);
       getObject(objet["id"]+1);
       setTimeout(function(){addMarker(listeObjets[objet["id"]],map)},2000);
+      continuer.style.display = "block";
+
     }
   })
 
@@ -143,7 +160,7 @@ function setCode(img=""){
 function afficherMsg(objet) {
   mapDialog();
   setDialogue(objet["message"],objet["img"]);
-  dialogueTexte.addEventListener('click',mapDialog);
+  continuer.addEventListener('click',mapDialog);
   setMessage(objet["indice"]);
 }
 
@@ -194,39 +211,3 @@ btStart.addEventListener("click",start);
 
 btOverlayC.addEventListener("click",hideShow);
 btOverlayO.addEventListener("click",hideShow);
-
-
-// ----------------------------------------------- Partie requête php -----------------------------------------------
-
-//On crée une liste qui va être parcourue pour récupérer chaque objet
-//On va chercher chaque objet en fonction de sa position dans la liste listeObjets
-var indObjetActuel = 0;
-//Liste des attributs de l'objet id,nom,image,latitude,longitude,type_condition,parametre,message,indice,image_pnj
-var listeAttributs;
-
-//afficherImg();
-
-var ajax = new XMLHttpRequest();
-ajax.open('POST', 'score.php',true);
-ajax.open('POST', 'objet.php',true);
-ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-//ajax.send("request='score'"); //Cette requête porte sur le premier objet de la liste à savoir "code1"
-
-ajax.addEventListener("load", function () {
-    //listeAttributs = JSON.parse(ajax.response);
-    //--------Opérations sur les différents éléments de l'objet "code1"------------
-    //Afficher le nouvel objet avec image et position
-    afficherImg();
-    //Afficher le nouveau message
-    //afficherMsg(listeAttributs);
-    //Cliquer pour quitter la page de dialogue...
-
-    //Afficher l'indice en texte
-    //setMessage(listeAttributs[8]);
-    //Changer d'objet actuel
-    }
-);
-
-ajax.addEventListener("click", function() {
-
-})
